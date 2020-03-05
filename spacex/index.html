@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Challenge 2 local</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css" integrity="sha256-46qynGAkLSFpVbEBog43gvNhfrOj+BmwXdxFgVK/Kvc=" crossorigin="anonymous" />
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+		<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+		<link rel="stylesheet" type="text/css" href="style/style.css">
+	</head>
+	<body  id="content">
+		<nav>
+			<figure id="raket">
+				<img src="image/raket.png" >
+			</figure>
+
+			<section id="headText">
+				<figure id="Logo">
+					<img src="image/spacex.png"/>
+				</figure>
+			</section>
+			<section id="headSearch">
+				<div class="input-container">
+				    <input class="input-field" type="text" placeholder="Search...">
+				    <i class="fa fa-search icon"></i>
+			  	</div>
+			</section>
+		</nav>
+		<section id="mainText">
+				<article>
+						Elon Musk is de oprichter en CEO van SpaceX. SpaceX ontwerpt, produceert en 
+						lanceert geavanceerde raketten en ruimtevaartuigen.In september 2019 onthulde Elon 
+						Musk het Interplanetary Transport System (ITS) van het bedrijf.De krachtigste raket die 
+						ooit is gebouwd. Een ruimteschip is ontworpen om per vlucht minimaal 100 mensen 
+						naar de Rode Planeet te vervoeren.
+				</article>
+		</section>
+		<section id="Voertuiginformatie" class="firstGraphLine tabletActive">
+			<h2>Voertuig informatie - snelheid</h2>
+			<canvas id="voertuiginfo" ></canvas>
+			<p>Km per uur</p>
+		</section>
+
+		<section id="VoertuigAfstand" class="firstGraphLine">
+			<h2>Voertuig omgeving - afstand</h2>
+			<canvas id="omgeving" ></canvas>
+			<p>Km per uur</p>
+		</section>
+
+		<section id="VoorradenEten" class="secondGraphLine">
+			<h2>Voorraden - eten</h2>
+			<canvas id="eten" ></canvas>
+		</section>
+		
+		<section id="voertuigBrandstof" class="secondGraphLine">
+			<h2>Voertuig informatie - brandstof</h2>
+			<figure>
+				<div id="chartblok">30%</div>
+				<div id="chartblok2">70%</div>
+			</figure>
+		</section>
+		<section id="left-arrow">
+			<i class="fas fa-arrow-left"></i>	
+		</section>
+		<section id="right-arrow">
+			<i class="fas fa-arrow-right"></i>	
+		</section>
+		<footer>
+			<figure id="Logo">
+					<img src="image/spacex.png"/>
+				</figure>
+		</footer>
+	</body>
+	<script type="text/javascript">
+		$(document).on('click', '#left-arrow', function(event) {
+			// left
+			let id = $($(`.tabletActive`)[0]).attr('id');
+			doStep(id,'previous');
+
+
+		});
+		$(document).on('click', '#right-arrow', function(event) {
+			let id = $($(`.tabletActive`)[0]).attr('id');
+			doStep(id,'next');
+		});
+		function doStep(id,stepType){
+			let carousell = ['Voertuiginformatie','VoertuigAfstand','VoorradenEten','voertuigBrandstof'];
+			let activeindex = carousell.indexOf(id);
+			let nextid;
+			$.each(carousell, function(index, identifier) {
+				$(`#${identifier}`).removeClass('tabletActive');
+			});
+			if(stepType == 'previous'){
+				if(activeindex == 0){
+					$('#'+carousell[carousell.length - 1]).addClass('tabletActive');
+				}else{
+					$('#'+carousell[activeindex - 1]).addClass('tabletActive');
+				}
+			}else{
+				if(activeindex == carousell.length - 1){
+					$('#'+carousell[0]).addClass('tabletActive');
+				}else{
+					$('#'+carousell[activeindex + 1]).addClass('tabletActive');
+
+				}
+			}
+			
+		}
+		var ctx = document.getElementById('voertuiginfo');
+var voertuiginfo = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ['1', '2', '3', '4', '5', '6'],
+        datasets: [{
+            label: '',
+            data: [30, 25, 20, 15, 13, 10],
+            backgroundColor: [
+                '#2699FB',
+                '#2699FB',
+                '#2699FB',
+                '#2699FB',
+                '#2699FB',
+                '#2699FB'
+            ],
+            borderColor: [
+               '#2699FB',
+                '#2699FB',
+                '#2699FB',
+                '#2699FB',
+                '#2699FB',
+                '#2699FB'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+    		responsive:true,
+    	 legend: {
+    	display: false
+    },
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+});
+	var omgeving = document.getElementById('omgeving');
+	let omgevingChart = new Chart(omgeving, {
+	    type: 'line',
+	     data: {
+        labels: ['1', '2', '3', '4', '5', '6'],
+        datasets: [{
+            label: '',
+            data: [0,12, 15, 20, 25 , 30],
+           fill: false,
+            borderColor: [
+               '#2699FB',
+                '#2699FB',
+                '#2699FB',
+                '#2699FB',
+                '#2699FB',
+                '#2699FB'
+            ]
+        }]
+    },
+	    options: {
+	    		responsive:true,
+	    	scales: {
+			  yAxes: [{
+			    scaleLabel: {
+			    	display: true,
+			        labelString: 'Afstand in km',
+			        fontColor: '#2699FB'
+			    }
+			  }]
+			},
+	        legend: {
+    			display: false
+    		}
+	    }
+    });
+
+    var voorraadData = {
+    labels: ["Overig voedsel ", "Geconsumeerd voedsel"],
+      datasets: [
+        {
+            fill: true,
+            backgroundColor: [
+                '#7FC4FD',
+                '#2699FB'],
+            data: [66.5, 33.5],
+// Notice the borderColor 
+            borderColor:	['#7FC4FD', '#2699FB'],
+            borderWidth: [2,2]
+        }
+    ]
+};
+
+var voorraad = document.getElementById('eten');
+	let voorraadChart = new Chart(voorraad, {
+	    type: 'pie',
+	     data: voorraadData,
+
+	    options: { 
+	    	 legend: {
+                position: 'bottom',
+               
+            },
+
+	    		responsive:true,
+        
+		        rotation: -0.7 * Math.PI
+		}
+    });
+	</script>
+	
+</html>
